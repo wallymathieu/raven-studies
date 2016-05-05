@@ -1,0 +1,7 @@
+NUGET
+  remote: https://www.nuget.org/api/v2
+  specs:
+    NUnit (2.6.4)
+    RavenDB.Client (3.0.30115)
+    RavenDB.Database (3.0.30115)
+      RavenDB.Client (3.0.30115)

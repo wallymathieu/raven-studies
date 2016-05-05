@@ -11,20 +11,19 @@ namespace SomeBasicRavenApp.Tests
         [SetUp]
         public void RunBeforeAnyTests()
         {
-            store = Allow32Bit(new EmbeddableDocumentStore()
+            store = new EmbeddableDocumentStore()
             {
                 Configuration = {
                     RunInUnreliableYetFastModeThatIsNotSuitableForProduction = true,
                     RunInMemory = true,
+                    Storage = {
+                        Voron= {
+                            AllowOn32Bits = true
+                        }
+                    }
                 }
-            });
+            };
             store.Initialize();
-        }
-
-        private IDocumentStore Allow32Bit(EmbeddableDocumentStore store)
-        {
-            store.Configuration.Storage.Voron.AllowOn32Bits = true;
-            return store;
         }
 
         [TearDown]

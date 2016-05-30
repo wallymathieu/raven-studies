@@ -1,4 +1,5 @@
 ﻿using NUnit.Framework;
+using Raven.Bundles.UniqueConstraints;
 using Raven.Client;
 using Raven.Client.Embedded;
 using Raven.Client.UniqueConstraints;

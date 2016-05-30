@@ -3,3 +3,4 @@ RavenDB.Client
 RavenDB.Client.UniqueConstraints
 RavenDB.Tests.Helpers
 With
+RavenDB.Bundles.UniqueConstraints

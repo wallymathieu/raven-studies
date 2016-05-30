@@ -5,12 +5,14 @@
     <Firstname>Steve</Firstname>
     <Lastname>Bohlen</Lastname>
     <Version>1</Version>
+    <Email>steve.bohlen@gmail.com</Email>
   </Customer>
   <Customer>
     <Id>2</Id>
     <Firstname>Steve</Firstname>
     <Lastname>Martin</Lastname>
     <Version>1</Version>
+    <Email>steve.martin@msdn.com</Email>
 
   </Customer>
   <Customer>
@@ -18,30 +20,28 @@
     <Firstname>Joe</Firstname>
     <Lastname>Doherty</Lastname>
     <Version>1</Version>
+    <Email>jue.doherty@university.edu</Email>
   </Customer>
   <Customer>
     <Id>4</Id>
     <Firstname>Yuliana</Firstname>
     <Lastname>Zhdanov</Lastname>
     <Version>1</Version>
+    <Email>yuliana.zhdanov@yahoo.com</Email>
   </Customer>
   <Customer>
     <Id>50</Id>
     <Firstname>Mike</Firstname>
     <Lastname>Szanto</Lastname>
     <Version>1</Version>
+    <Email>mike.szanto@hotmail.com</Email>
   </Customer>
   <Customer>
     <Id>51</Id>
     <Firstname>Peter</Firstname>
     <Lastname>Sylvester</Lastname>
     <Version>1</Version>
-  </Customer>
-  <Customer>
-    <Id>52</Id>
-    <Firstname>Steve</Firstname>
-    <Lastname>Bohlen</Lastname>
-    <Version>1</Version>
+    <Email>peter@sylvester.com</Email>
   </Customer>
   <Product>
     <Id>1</Id>

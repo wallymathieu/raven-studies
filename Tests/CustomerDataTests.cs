@@ -7,6 +7,7 @@ using System;
 using SomeBasicRavenApp.Core.Entities;
 using Raven.Client;
 using System.Collections.Generic;
+using Raven.Client.UniqueConstraints;
 
 namespace SomeBasicRavenApp.Tests
 {
@@ -39,8 +40,50 @@ namespace SomeBasicRavenApp.Tests
             var customers = _session.Query<Customer>()
                 .Where(c => c.Firstname == "Steve")
                 .ToList();
-            Assert.AreEqual(3, customers.Count);
+            Assert.AreEqual(2, customers.Count);
         }
+
+        [Test]
+        public void CanGetCustomerByEmail()
+        {
+            var customer = _session.LoadByUniqueConstraint<Customer>(x => x.Email,
+                "peter@sylvester.com");
+            Assert.AreEqual(51, customer.Id);
+        }
+
+        [Test]
+        public void CanCheckIfConstraintIsValid()
+        {
+            var customer = new Customer {
+                Id=61,
+                Firstname = "Peter John",
+                Lastname ="Sylvester",
+                Email = "peter@sylvester.com"
+            };
+            var checkResult = _session.CheckForUniqueConstraints(customer);
+            Assert.IsFalse(checkResult.ConstraintsAreFree());
+        }
+
+        [Test]
+        public void CanInsertDuplicate()
+        {
+            var customer = new Customer
+            {
+                Id = 61,
+                Firstname = "Peter John",
+                Lastname = "Sylvester",
+                Email = "peter@sylvester.com"
+            };
+            _session.Store(customer);
+            var first = _session.Load<Customer>(51);
+            Assert.IsNotNull(first,"first");
+            var second= _session.Load<Customer>(61);
+            Assert.IsNotNull(second, "second");
+            var customerWhenLoadByConstrain = _session.LoadByUniqueConstraint<Customer>(x => x.Email,
+              "peter@sylvester.com");
+            Assert.AreEqual(51, customerWhenLoadByConstrain.Id);
+        }
+
 
         [Test]
         public void CanGetProductById()

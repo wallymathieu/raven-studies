@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using Raven.Client.UniqueConstraints;
+using System.Collections.Generic;
 
 namespace SomeBasicRavenApp.Core.Entities
 {
@@ -13,6 +14,9 @@ namespace SomeBasicRavenApp.Core.Entities
         public virtual string Firstname { get; set; }
 
         public virtual string Lastname { get; set; }
+
+        [UniqueConstraint]
+        public virtual string Email { get; set; }
 
         public virtual IList<Order> Orders { get; set; }
 

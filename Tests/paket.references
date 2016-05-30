@@ -1,3 +1,5 @@
 NUnit
 RavenDB.Client
-RavenDB.Database
+RavenDB.Client.UniqueConstraints
+RavenDB.Tests.Helpers
+With

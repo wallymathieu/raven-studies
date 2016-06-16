@@ -12,6 +12,7 @@ using Raven.Client.Exceptions;
 using SomeBasicRavenApp.Core.Transformations;
 using Raven.Client.Indexes;
 using SomeBasicRavenApp.Core.Extensions;
+using SomeBasicRavenApp.Core.Indexes;
 
 namespace SomeBasicRavenApp.Tests
 {
@@ -54,6 +55,15 @@ namespace SomeBasicRavenApp.Tests
             var customer = _session.LoadByUniqueConstraint<Customer>(x => x.Email,
                 "peter@sylvester.com");
             Assert.AreEqual(51, customer.Number);
+        }
+
+        [Test]
+        public void CanSearchForCustomerByName()
+        {
+            var customers = _session.Query<Customer, Customer_ByFirstAndLastName>()
+                .Where(c=>c.Firstname=="Steve")
+                .ToList();
+            Assert.AreEqual(2, customers.Count);
         }
 
         [Test]

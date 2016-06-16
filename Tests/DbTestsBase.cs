@@ -20,7 +20,8 @@ namespace SomeBasicRavenApp.Tests
             ).FirstOrDefault(dir => Path.GetFileName(dir).StartsWith("RavenDB.Bundles.UniqueConstraints"));
             if (plugindirectory == null) throw new NullReferenceException("plugindirectory");
             configuration.PluginsDirectory = Path.Combine(plugindirectory, "lib", "net45");
-            configuration.Storage.Voron.AllowOn32Bits = true;
+            //configuration.Storage.Voron.AllowOn32Bits = true;
+            configuration.DefaultStorageTypeName = InMemoryRavenConfiguration.EsentTypeName;
             base.ModifyConfiguration(configuration);
         }
         protected override void ModifyStore(DocumentStore documentStore)

@@ -144,6 +144,7 @@ namespace SomeBasicRavenApp.Tests
         public void TestFixtureSetup()
         {
             _store = this.NewDocumentStore(runInMemory: true);
+            _store.Initialize();
             var doc = XDocument.Load(Path.Combine("TestData", "TestData.xml"));
             var import = new XmlImport(doc, "http://tempuri.org/Database.xsd");
             using (var session = _store.OpenSession())

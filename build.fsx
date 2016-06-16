@@ -57,25 +57,22 @@ Target "build" (fun _ ->
     |> ignore
 )
 
-Target "test_only" (fun _ ->
+let runTests _=
     !! testAssemblies
     |> NUnit (fun p ->
         { p with
             DisableShadowCopy = true
             TimeOut = TimeSpan.FromMinutes 20.
             OutputFile = "TestResults.xml" })
-)
 
-Target "test" (fun _ -> ())
+Target "test_only" runTests
+
+Target "test" runTests
 
 // --------------------------------------------------------------------------------------
 // Run all targets by default. Invoke 'build <Target>' to override
 
 Target "all" DoNothing
-"clean"
-
-"test_only"
-  ==> "test"
 
 "clean"
   ==> "build"

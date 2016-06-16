@@ -15,9 +15,12 @@ namespace SomeBasicRavenApp.Tests
     {
         protected override void ModifyConfiguration(InMemoryRavenConfiguration configuration)
         {
-            var plugindirectory = Directory.EnumerateDirectories(Path.Combine(Environment.CurrentDirectory, "..", "..", "..", "packages")).FirstOrDefault(dir => Path.GetFileName(dir).StartsWith("RavenDB.Bundles.UniqueConstraints"));
-
+            var plugindirectory = Directory.EnumerateDirectories(
+                Path.Combine(Environment.CurrentDirectory, "..", "..", "..", "packages")
+            ).FirstOrDefault(dir => Path.GetFileName(dir).StartsWith("RavenDB.Bundles.UniqueConstraints"));
+            if (plugindirectory == null) throw new NullReferenceException("plugindirectory");
             configuration.PluginsDirectory = Path.Combine(plugindirectory, "lib", "net45");
+            configuration.Storage.Voron.AllowOn32Bits = true;
             base.ModifyConfiguration(configuration);
         }
         protected override void ModifyStore(DocumentStore documentStore)

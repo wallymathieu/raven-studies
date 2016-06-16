@@ -22,6 +22,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <LangVersion>5</LangVersion>
+    <PlatformTarget>x64</PlatformTarget>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -43,8 +44,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CustomerDataTests.cs" />
+    <Compile Include="DbTestsBase.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="DbContextSetUpFixture.cs" />
     <Compile Include="XmlImport.cs" />
   </ItemGroup>
   <ItemGroup>

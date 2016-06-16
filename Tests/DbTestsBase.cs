@@ -1,0 +1,34 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using Raven.Database.Config;
+using System.IO;
+using Raven.Client.Document;
+using Raven.Client.UniqueConstraints;
+using Raven.Client.Embedded;
+
+namespace SomeBasicRavenApp.Tests
+{
+    public class DbTestsBase: Raven.Tests.Helpers.RavenTestBase
+    {
+        protected override void ModifyConfiguration(InMemoryRavenConfiguration configuration)
+        {
+            var plugindirectory = Directory.EnumerateDirectories(Path.Combine(Environment.CurrentDirectory, "..", "..", "..", "packages")).FirstOrDefault(dir => Path.GetFileName(dir).StartsWith("RavenDB.Bundles.UniqueConstraints"));
+
+            configuration.PluginsDirectory = Path.Combine(plugindirectory, "lib", "net45");
+            base.ModifyConfiguration(configuration);
+        }
+        protected override void ModifyStore(DocumentStore documentStore)
+        {
+            documentStore.RegisterListener(new UniqueConstraintsStoreListener());
+            base.ModifyStore(documentStore);
+        }
+        protected override void ModifyStore(EmbeddableDocumentStore documentStore)
+        {
+            documentStore.RegisterListener(new UniqueConstraintsStoreListener());
+            base.ModifyStore(documentStore);
+        }
+    }
+}

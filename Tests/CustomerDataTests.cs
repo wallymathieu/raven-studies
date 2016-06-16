@@ -8,13 +8,14 @@ using SomeBasicRavenApp.Core.Entities;
 using Raven.Client;
 using System.Collections.Generic;
 using Raven.Client.UniqueConstraints;
+using Raven.Client.Exceptions;
 
 namespace SomeBasicRavenApp.Tests
 {
     [TestFixture]
-    public class CustomerDataTests
+    public class CustomerDataTests: DbTestsBase
     {
-
+        private IDocumentStore _store;
         private IDocumentSession _session;
 
 
@@ -75,6 +76,8 @@ namespace SomeBasicRavenApp.Tests
                 Email = "peter@sylvester.com"
             };
             _session.Store(customer);
+            WaitForIndexing(_store);
+
             var first = _session.Load<Customer>(51);
             Assert.IsNotNull(first,"first");
             var second= _session.Load<Customer>(61);
@@ -84,6 +87,32 @@ namespace SomeBasicRavenApp.Tests
             Assert.AreEqual(51, customerWhenLoadByConstrain.Id);
         }
 
+
+        [Test]
+        public void CantInsertARecordWithSameId()
+        {
+            var customer = new Customer
+            {
+                Id = 61,
+                Firstname = "Peter John",
+                Lastname = "Sylvester1",
+                Email = "peter1@sylvester.com"
+            };
+            _session.Store(customer);
+            var customer_2 = new Customer
+            {
+                Id = 61,
+                Firstname = "Peter John",
+                Lastname = "Sylvester2",
+                Email = "peter2@sylvester.com"
+            };
+            Assert.Throws<NonUniqueObjectException>(()=> _session.Store(customer_2));
+            WaitForIndexing(_store);
+            var load = _session.Load<Customer>(61);
+            Assert.IsNotNull(load);
+            Assert.AreEqual(customer.Lastname, load.Lastname);
+            Assert.AreEqual(customer.Email, load.Email);
+        }
 
         [Test]
         public void CanGetProductById()
@@ -101,7 +130,7 @@ namespace SomeBasicRavenApp.Tests
         [SetUp]
         public void Setup()
         {
-            _session = DbContextSetUpFixture.store.OpenSession();
+            _session = _store.OpenSession();
         }
 
 
@@ -114,9 +143,10 @@ namespace SomeBasicRavenApp.Tests
         [TestFixtureSetUp]
         public void TestFixtureSetup()
         {
+            _store = this.NewDocumentStore(runInMemory: true);
             var doc = XDocument.Load(Path.Combine("TestData", "TestData.xml"));
             var import = new XmlImport(doc, "http://tempuri.org/Database.xsd");
-            using (var session = DbContextSetUpFixture.store.OpenSession())
+            using (var session = _store.OpenSession())
             {
                 import.Parse<Core.IIdentifiableByNumber>(new[] { typeof(Customer), typeof(Product) },
                                 (type, obj) => session.Store(obj), onIgnore: (type, property) =>
@@ -143,15 +173,13 @@ namespace SomeBasicRavenApp.Tests
                 });
                 session.SaveChanges();
             }
+            WaitForIndexing(_store);
         }
 
         [TestFixtureTearDown]
         public void TestFixtureTearDown()
         {
-            using (var session = DbContextSetUpFixture.store.OpenSession())
-            {
-                //session.Advanced.
-            }
+            _store.Dispose();
         }
     }
 }

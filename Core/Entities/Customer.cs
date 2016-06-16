@@ -7,9 +7,12 @@ namespace SomeBasicRavenApp.Core.Entities
     {
         public Customer()
         {
-            Orders = new List<Order>();
+            //Orders = new List<Order>();
         }
-        public virtual int Id { get; set; }
+        public virtual string Id { get; set; }
+
+        [UniqueConstraint]
+        public virtual int Number { get; set; }
 
         public virtual string Firstname { get; set; }
 
@@ -18,7 +21,7 @@ namespace SomeBasicRavenApp.Core.Entities
         [UniqueConstraint]
         public virtual string Email { get; set; }
 
-        public virtual IList<Order> Orders { get; set; }
+        //public virtual IList<Order> Orders { get; set; }
 
         public virtual int Version { get; set; }
 

@@ -67,6 +67,23 @@ namespace SomeBasicRavenApp.Tests
         }
 
         [Test]
+        public void CanFindAllThingsSugar()
+        {
+            var products = _session.SearchForProducts("sugar")
+                .ToList();
+            Assert.AreEqual(2, products.Count);
+        }
+
+        [Test]
+        public void CanSearchForSugarDrink()
+        {
+            var products = _session.SearchForProducts("sugar drink")
+                .ToList();
+            Assert.That(products.Count, Is.AtLeast(1));
+            Assert.AreEqual("Soda", products.First().Name);
+        }
+
+        [Test]
         public void CanCheckIfConstraintIsValid()
         {
             var customer = new Customer

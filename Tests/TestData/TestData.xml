@@ -46,24 +46,32 @@
     <Product>
         <Number>1</Number>
         <Name>Yo-yo</Name>
+        <Tags>Toy</Tags>
+        <Description>A yo-yo (also spelled yoyo) is a toy which in its simplest form is an object consisting of an axle connected to two disks, and a length of string looped around the axle, similar to a slender spool. It is played by holding the free end of the string known as the handle (usually by inserting one finger in a slip knot) allowing gravity or the force of a throw to spin the yo-yo and unwind the string (similar to how a pullstring works), then allowing the yo-yo to wind itself back to one's hand, exploiting its spin (and the associated rotational energy). This is often called "yo-yoing". First made popular in the 1920s, yo-yoing remains a popular pastime of many generations and cultures. It was first invented in ancient Greece.</Description>
         <Cost>3.50</Cost>
         <Version>1</Version>
     </Product>
     <Product>
         <Number>2</Number>
         <Name>Gumballs</Name>
+        <Tags>Candy Gum Sugar</Tags>
+        <Description>Chewing gum is a soft, cohesive substance designed to be chewed without being swallowed. Humans have used chewing gum in some form for at least 100,000 years. Modern chewing gum today is made from butadiene-based synthetic rubber. Most chewing gums are considered polymers. Longer polymers can produce larger bubbles due to increased intermolecular forces.</Description>
         <Cost>0.25</Cost>
         <Version>1</Version>
     </Product>
     <Product>
         <Number>3</Number>
         <Name>Soda</Name>
+        <Tags>Beverage Sugar</Tags>
+        <Description>A soft drink (see terminology for other names) is a drink that typically contains carbonated water, a sweetener, and a natural or artificial flavoring. The sweetener may be sugar, high-fructose corn syrup, fruit juice, sugar substitutes (in the case of diet drinks), or some combination of these. Soft drinks may also contain caffeine, colorings, preservatives, and other ingredients.</Description>
         <Cost>1.50</Cost>
         <Version>1</Version>
     </Product>
     <Product>
         <Number>4</Number>
         <Name>Coffee</Name>
+        <Tags>Beverage caffeinated</Tags>
+        <Description>Coffee is a brewed drink prepared from roasted coffee beans, which are the seeds of berries from the Coffea plant. The genus Coffea is native to tropical Africa, Madagascar, and the Comoros, Mauritius and Réunion in the Indian Ocean. [2] The plant was exported from Africa to countries around the world and coffee plants are now cultivated in over 70 countries, primarily in the equatorial regions of the Americas, Southeast Asia, India, and Africa. The two most commonly grown are the highly regarded arabica, and the less sophisticated but stronger and more hardy robusta. Once ripe, coffee berries are picked, processed, and dried. Dried coffee seeds (referred to as beans) are roasted to varying degrees, depending on the desired flavor. Roasted beans are ground and brewed with near boiling water to produce coffee as a beverage.</Description>
         <Cost>1.25</Cost>
         <Version>1</Version>
     </Product>

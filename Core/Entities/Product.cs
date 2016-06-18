@@ -1,5 +1,4 @@
 ﻿using Raven.Client.UniqueConstraints;
-using System.Collections.Generic;
 
 namespace SomeBasicRavenApp.Core.Entities
 {
@@ -10,6 +9,9 @@ namespace SomeBasicRavenApp.Core.Entities
         public virtual float Cost { get; set; }
 
         public virtual string Name { get; set; }
+
+        public virtual string Tags { get; set; }
+        public virtual string Description { get; set; }
         [UniqueConstraint]
         public virtual int Number { get; set; }
 

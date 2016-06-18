@@ -34,7 +34,7 @@ namespace SomeBasicRavenApp.Tests
         [Test]
         public void CustomerHasOrders()
         {
-            var customerOrder = _session.GetCustomerOrders(order=>order.Number==1)
+            var customerOrder = _session.GetCustomerOrders(order => order.Number == 1)
                 .First();
 
             Assert.True(customerOrder.Item2.Any());
@@ -61,7 +61,7 @@ namespace SomeBasicRavenApp.Tests
         public void CanSearchForCustomerByName()
         {
             var customers = _session.Query<Customer, Customer_ByFirstAndLastName>()
-                .Where(c=>c.Firstname=="Steve")
+                .Where(c => c.Firstname == "Steve")
                 .ToList();
             Assert.AreEqual(2, customers.Count);
         }
@@ -71,7 +71,33 @@ namespace SomeBasicRavenApp.Tests
         {
             var products = _session.SearchForProducts("sugar")
                 .ToList();
-            Assert.AreEqual(2, products.Count);
+            Assert.That(products.Count, Is.AtLeast(2));
+        }
+
+        [Test]
+        public void CanFindAllThingsSugarWhenFuzzy()
+        {
+            var products = _session.FuzzySearchForProducts("sugar")
+                .ToList();
+            Assert.That(products.Count, Is.AtLeast(2));
+        }
+
+        [Test]
+        public void CanFindSugDrink()
+        {
+            var products = _session.FuzzySearchForProducts("sug drink")
+                .ToList();
+            Assert.That(products.Count, Is.AtLeast(1));
+            Assert.AreEqual("Soda", products.First().Name);
+        }
+
+        [Test]
+        public void CanSearchForSugarDrinkWhenFuzzy()
+        {
+            var products = _session.FuzzySearchForProducts("sugar drink")
+                .ToList();
+            Assert.That(products.Count, Is.AtLeast(1));
+            Assert.AreEqual("Soda", products.First().Name);
         }
 
         [Test]

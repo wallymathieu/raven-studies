@@ -84,7 +84,7 @@ namespace SomeBasicRavenApp.Tests
 
             foreach (var element in elements)
             {
-                XElement f = element.Element(ns + "Id");
+                XElement f = element.Element(ns + "Number");
                 XElement s = element.Element(ns + elementName);
                 var id = int.Parse(f.Value);
                 var other = int.Parse(s.Value);

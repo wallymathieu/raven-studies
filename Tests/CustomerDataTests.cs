@@ -13,6 +13,8 @@ using SomeBasicRavenApp.Core.Transformations;
 using Raven.Client.Indexes;
 using SomeBasicRavenApp.Core.Extensions;
 using SomeBasicRavenApp.Core.Indexes;
+using Raven.Abstractions.Data;
+using System.Collections.Generic;
 
 namespace SomeBasicRavenApp.Tests
 {
@@ -47,6 +49,23 @@ namespace SomeBasicRavenApp.Tests
                 .Where(c => c.Firstname == "Steve")
                 .ToList();
             Assert.AreEqual(2, customers.Count);
+        }
+
+        [Test]
+        public void CanGetFirstNames()
+        {
+            var facets = _session.Query<Customer, Customer_ByFirstAndLastName>()
+                .ToFacets(new List<Facet>() {
+                    new Facet() {
+                        Name="Firstname",
+                        AggregationField="Firstname",
+                        TermSortMode=FacetTermSortMode.ValueDesc,
+                        Mode=FacetMode.Default
+                    }
+                })
+                ;
+            Assert.That(facets.Results["Firstname"].Values.Select(v=>v.Range).ToArray(),
+                Is.EquivalentTo(new[] { "steve", "joe", "mike", "peter", "yuliana" }));
         }
 
         [Test]

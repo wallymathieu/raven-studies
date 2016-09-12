@@ -15,6 +15,7 @@ using SomeBasicRavenApp.Core.Extensions;
 using SomeBasicRavenApp.Core.Indexes;
 using Raven.Abstractions.Data;
 using System.Collections.Generic;
+using Raven.Abstractions.Connection;
 
 namespace SomeBasicRavenApp.Tests
 {
@@ -143,7 +144,7 @@ namespace SomeBasicRavenApp.Tests
         }
 
         [Test]
-        public void CanInsertDuplicate()
+        public void CantInsertDuplicate()
         {
             var customer = new Customer
             {
@@ -153,15 +154,10 @@ namespace SomeBasicRavenApp.Tests
                 Email = "peter@sylvester.com"
             };
             _session.Store(customer);
-            WaitForIndexing(_store);
-
-            var first = _session.LoadByUniqueConstraint<Customer>(c => c.Number, 51);
-            Assert.IsNotNull(first, "first");
-            var second = _session.Load<Customer>(customer.Id);
-            Assert.IsNotNull(second, "second");
-            var customerWhenLoadByConstrain = _session.LoadByUniqueConstraint<Customer>(x => x.Email,
-              "peter@sylvester.com");
-            Assert.AreEqual(51, customerWhenLoadByConstrain.Number);
+            Assert.Throws<ErrorResponseException>(() =>
+            {
+                _session.SaveChanges();
+            });
         }
 
 

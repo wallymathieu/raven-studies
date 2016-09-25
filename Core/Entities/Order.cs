@@ -8,7 +8,7 @@ namespace SomeBasicRavenApp.Core.Entities
     {
         public Order()
         {
-            Products = new List<string>();
+            Products = new List<ProductId>();
         }
         public virtual string Id { get; set; }
 
@@ -16,9 +16,9 @@ namespace SomeBasicRavenApp.Core.Entities
         [UniqueConstraint]
         public virtual int Number { get; set; }
 
-        public virtual string CustomerId { get; set; }
+        public virtual CustomerId CustomerId { get; set; }
 
-        public virtual IList<string> Products { get; set; }
+        public virtual IList<ProductId> Products { get; set; }
 
         public virtual int Version { get; set; }
 

@@ -6,21 +6,20 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SomeBasicRavenApp.Core.Extensions
 {
     public static class OrderExtensions
     {
-        public static IEnumerable<Tuple<Customer,Order[]>> GetCustomerOrders(this IDocumentSession session, Expression<Func<Order, bool>> predicate) {
+        public static IEnumerable<Tuple<Customer, Order[]>> GetCustomerOrders(this IDocumentSession session, Expression<Func<Order, bool>> predicate)
+        {
             return session.Query<Order>()
                 .Where(predicate)
                 .TransformWith<Order_WithCustomer, Order_WithCustomer.Result>()
                 .ToList()
-                .GroupBy(c => c.Customer.Number)
+                .GroupBy(c => c.Customer != null ? c.Customer.Number : 0)
                 .Select(c => Tuple.Create(
-                    c.First().Customer, 
+                    c.First().Customer,
                     c.Select(o => o.Order).ToArray()));
         }
 

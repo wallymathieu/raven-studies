@@ -1,18 +1,18 @@
 NUGET
   remote: https://www.nuget.org/api/v2
-    FAKE (4.39)
+    FAKE (4.40)
     Lucene.Net (3.0.3)
       SharpZipLib (>= 0.86)
     NUnit (2.6.4)
     NUnit.Runners (2.6.4)
-    RavenDB.Bundles.UniqueConstraints (3.0.30153)
-      RavenDB.Database (3.0.30153)
-    RavenDB.Client (3.0.30153)
-    RavenDB.Client.UniqueConstraints (3.0.30153)
-      RavenDB.Client (3.0.30153) - framework: net10, net11, net20, net30, net35, net40, net40-full
-    RavenDB.Database (3.0.30153)
-      RavenDB.Client (3.0.30153)
-    RavenDB.Tests.Helpers (3.0.30153)
-      RavenDB.Database (3.0.30153)
+    RavenDB.Bundles.UniqueConstraints (3.0.30155)
+      RavenDB.Database (3.0.30155)
+    RavenDB.Client (3.0.30155)
+    RavenDB.Client.UniqueConstraints (3.0.30155)
+      RavenDB.Client (3.0.30155) - framework: net10, net11, net20, net30, net35, net40, net40-full
+    RavenDB.Database (3.0.30155)
+      RavenDB.Client (3.0.30155)
+    RavenDB.Tests.Helpers (3.0.30155)
+      RavenDB.Database (3.0.30155)
     SharpZipLib (0.86)
     With (2.0)

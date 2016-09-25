@@ -4,7 +4,7 @@ namespace SomeBasicRavenApp.Core.Entities
 {
     public class Product : IIdentifiableByNumber
     {
-        public virtual string Id { get; set; }
+        public virtual ProductId Id { get; set; }
 
         public virtual float Cost { get; set; }
 

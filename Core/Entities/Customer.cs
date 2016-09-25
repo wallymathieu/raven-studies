@@ -9,7 +9,7 @@ namespace SomeBasicRavenApp.Core.Entities
         {
             //Orders = new List<Order>();
         }
-        public virtual string Id { get; set; }
+        public virtual CustomerId Id { get; set; }
 
         [UniqueConstraint]
         public virtual int Number { get; set; }

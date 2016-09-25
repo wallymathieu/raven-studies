@@ -17,7 +17,7 @@ namespace SomeBasicRavenApp.Core.Transformations
             TransformResults =
                 orders =>
                 from order in orders
-                let customer = LoadDocument<Customer>(order.CustomerId)
+                let customer = LoadDocument<Customer>((string)order.CustomerId)
                 select new Result
                 {
                     Customer = customer,

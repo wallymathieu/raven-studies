@@ -8,6 +8,7 @@ using System.IO;
 using Raven.Client.Document;
 using Raven.Client.UniqueConstraints;
 using Raven.Client.Embedded;
+using SomeBasicRavenApp.Core;
 
 namespace SomeBasicRavenApp.Tests
 {
@@ -27,11 +28,15 @@ namespace SomeBasicRavenApp.Tests
         protected override void ModifyStore(DocumentStore documentStore)
         {
             documentStore.RegisterListener(new UniqueConstraintsStoreListener());
+            documentStore.Conventions.IdentityTypeConvertors.Add(new CustomerIdentityConverter());
+            documentStore.Conventions.IdentityTypeConvertors.Add(new ProductIdentityConverter());
             base.ModifyStore(documentStore);
         }
         protected override void ModifyStore(EmbeddableDocumentStore documentStore)
         {
             documentStore.RegisterListener(new UniqueConstraintsStoreListener());
+            documentStore.Conventions.IdentityTypeConvertors.Add(new CustomerIdentityConverter());
+            documentStore.Conventions.IdentityTypeConvertors.Add(new ProductIdentityConverter());
             base.ModifyStore(documentStore);
         }
     }

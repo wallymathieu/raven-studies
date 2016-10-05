@@ -144,22 +144,46 @@ namespace SomeBasicRavenApp.Tests
         }
 
         [Test]
-        public void CantInsertDuplicate()
+        public void CantInsertDuplicateNumber()
         {
+            var existing = _session.Query<Customer>().First();
             var customer = new Customer
             {
-                Number = 61,
-                Firstname = "Peter John",
-                Lastname = "Sylvester",
-                Email = "peter@sylvester.com"
+                Number = existing.Number,
+                Firstname = existing.Firstname+ "x",
+                Lastname = existing.Lastname+ "x",
+                Email = "peter@random.com"
             };
+            var checkResult = _session.CheckForUniqueConstraints(customer);
+            Assert.IsFalse(checkResult.ConstraintsAreFree());
             _session.Store(customer);
-            Assert.Throws<ErrorResponseException>(() =>
+            var res = Assert.Throws<ErrorResponseException>(() =>
             {
                 _session.SaveChanges();
             });
+            Assert.That(res.Message, Is.StringContaining("Ensure unique constraint violated for fields").And.StringContaining("Number"));
         }
 
+        [Test]
+        public void CantInsertDuplicateEmail()
+        {
+            var existing = _session.Query<Customer>().First();
+            var customer = new Customer
+            {
+                Number = existing.Number+1000,
+                Firstname = existing.Firstname + "x",
+                Lastname = existing.Lastname + "x",
+                Email = existing.Email
+            };
+            var checkResult = _session.CheckForUniqueConstraints(customer);
+            Assert.IsFalse(checkResult.ConstraintsAreFree());
+            _session.Store(customer);
+            var res = Assert.Throws<ErrorResponseException>(() =>
+            {
+                _session.SaveChanges();
+            });
+            Assert.That(res.Message, Is.StringContaining("Ensure unique constraint violated for fields").And.StringContaining("Email"));
+        }
 
         [Test]
         public void CantInsertARecordWithSameId()

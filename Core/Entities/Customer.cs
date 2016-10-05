@@ -14,6 +14,9 @@ namespace SomeBasicRavenApp.Core.Entities
         [UniqueConstraint]
         public virtual int Number { get; set; }
 
+        [UniqueConstraint]
+        public virtual string FirstNameAndLastName { get { return string.Concat(Firstname, Lastname); } }
+
         public virtual string Firstname { get; set; }
 
         public virtual string Lastname { get; set; }

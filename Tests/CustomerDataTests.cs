@@ -186,6 +186,27 @@ namespace SomeBasicRavenApp.Tests
         }
 
         [Test]
+        public void CantInsertDuplicateFirstNameAndLastName()
+        {
+            var existing = _session.Query<Customer>().First();
+            var customer = new Customer
+            {
+                Number = existing.Number + 10000,
+                Firstname = existing.Firstname,
+                Lastname = existing.Lastname,
+                Email = "peter@random.com"
+            };
+            var checkResult = _session.CheckForUniqueConstraints(customer);
+            Assert.IsFalse(checkResult.ConstraintsAreFree());
+            _session.Store(customer);
+            var res = Assert.Throws<ErrorResponseException>(() =>
+            {
+                _session.SaveChanges();
+            });
+            Assert.That(res.Message, Is.StringContaining("Ensure unique constraint violated for fields").And.StringContaining("FirstNameAndLastName"));
+        }
+
+        [Test]
         public void CantInsertARecordWithSameId()
         {
             var customer = new Customer

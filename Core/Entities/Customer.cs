@@ -1,6 +1,6 @@
 ﻿namespace SomeBasicRavenApp.Core.Entities
 {
-    public class Customer
+    public class Customer:IIdentifiableByNumber
     {
         public Customer()
         {

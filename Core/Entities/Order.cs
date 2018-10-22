@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace SomeBasicRavenApp.Core.Entities
 {
-    public class Order
+    public class Order:IIdentifiableByNumber
     {
         public Order()
         {

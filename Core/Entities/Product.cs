@@ -1,6 +1,6 @@
 ﻿namespace SomeBasicRavenApp.Core.Entities
 {
-    public class Product
+    public class Product:IIdentifiableByNumber
     {
         public virtual string Id { get; set; }
 

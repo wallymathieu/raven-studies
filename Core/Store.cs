@@ -17,4 +17,9 @@ namespace SomeBasicRavenApp.Core
             return store;
         }
     }
+
+    public interface IIdentifiableByNumber
+    {
+        string Id { get; }
+    }
 }

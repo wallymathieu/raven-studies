@@ -1,40 +1,37 @@
 ﻿using System.IO;
 using System.Xml.Linq;
-using NUnit.Framework;
 using Order = SomeBasicRavenApp.Core.Entities.Order;
-using System.Linq;
 using System;
+using System.Collections.Generic;
+using System.Linq;
+using Raven.Client.Documents;
+using Raven.Client.Documents.Indexes;
+using Raven.Client.Documents.Queries.Facets;
+using Raven.Client.Documents.Session;
+using Raven.Client.Exceptions.Documents.Session;
 using SomeBasicRavenApp.Core.Entities;
-using Raven.Client;
-using Raven.Client.Linq;
-using Raven.Client.UniqueConstraints;
-using Raven.Client.Exceptions;
-using SomeBasicRavenApp.Core.Transformations;
-using Raven.Client.Indexes;
 using SomeBasicRavenApp.Core.Extensions;
 using SomeBasicRavenApp.Core.Indexes;
-using Raven.Abstractions.Data;
-using System.Collections.Generic;
-using Raven.Abstractions.Connection;
+using SomeBasicRavenApp.Core.Transformations;
+using Xunit;
 
 namespace SomeBasicRavenApp.Tests
 {
-    [TestFixture]
-    public class CustomerDataTests : DbTestsBase
+    public class CustomerDataTests : IDisposable
     {
         private IDocumentStore _store;
         private IDocumentSession _session;
 
 
-        [Test]
+        [Fact]
         public void CanGetCustomerById()
         {
             var customer = _session.Load<Customer>(1);
 
-            Assert.IsNotNull(customer);
+            Assert.NotNull(customer);
         }
 
-        [Test]
+        [Fact]
         public void CustomerHasOrders()
         {
             var customerOrder = _session.GetCustomerOrders(order => order.Number == 1)
@@ -43,16 +40,16 @@ namespace SomeBasicRavenApp.Tests
             Assert.True(customerOrder.Item2.Any());
         }
 
-        [Test]
+        [Fact]
         public void CanGetCustomerByFirstname()
         {
             var customers = _session.Query<Customer>()
                 .Where(c => c.Firstname == "Steve")
                 .ToList();
-            Assert.AreEqual(2, customers.Count);
+            Assert.Equal(2, customers.Count);
         }
 
-        [Test]
+        [Fact]
         public void CanGetFirstNames()
         {
             var facets = _session.Query<Customer, Customer_ByFirstAndLastName>()
@@ -69,144 +66,69 @@ namespace SomeBasicRavenApp.Tests
                 Is.EquivalentTo(new[] { "steve", "joe", "mike", "peter", "yuliana" }));
         }
 
-        [Test]
+        [Fact]
         public void CanGetCustomerByEmail()
         {
-            var customer = _session.LoadByUniqueConstraint<Customer>(x => x.Email,
-                "peter@sylvester.com");
-            Assert.AreEqual(51, customer.Number);
+            var customer = _session.Query<Customer>().Single(x => x.Email=="peter@sylvester.com");
+            Assert.Equal(51, customer.Number);
         }
 
-        [Test]
+        [Fact]
         public void CanSearchForCustomerByName()
         {
             var customers = _session.Query<Customer, Customer_ByFirstAndLastName>()
                 .Where(c => c.Firstname == "Steve")
                 .ToList();
-            Assert.AreEqual(2, customers.Count);
+            Assert.Equal(2, customers.Count);
         }
 
-        [Test]
+        [Fact]
         public void CanFindAllThingsSugar()
         {
             var products = _session.SearchForProducts("sugar")
                 .ToList();
-            Assert.That(products.Count, Is.AtLeast(2));
+            Assert.Equal(2,products.Count);
         }
 
-        [Test]
+        [Fact]
         public void CanFindAllThingsSugarWhenFuzzy()
         {
             var products = _session.FuzzySearchForProducts("sugar")
                 .ToList();
-            Assert.That(products.Count, Is.AtLeast(2));
+            Assert.Equal(2,products.Count);
         }
 
-        [Test]
+        [Fact]
         public void CanFindSugDrink()
         {
             var products = _session.FuzzySearchForProducts("sug drink")
                 .ToList();
-            Assert.That(products.Count, Is.AtLeast(1));
-            Assert.AreEqual("Soda", products.First().Name);
+            Assert.True(products.Count>=1);
+            
+            Assert.Equal("Soda", products.First().Name);
         }
 
-        [Test]
+        [Fact]
         public void CanSearchForSugarDrinkWhenFuzzy()
         {
             var products = _session.FuzzySearchForProducts("sugar drink")
                 .ToList();
-            Assert.That(products.Count, Is.AtLeast(1));
-            Assert.AreEqual("Soda", products.First().Name);
+            Assert.True(products.Count>=1);
+            Assert.Equal("Soda", products.First().Name);
         }
 
-        [Test]
+        [Fact]
         public void CanSearchForSugarDrink()
         {
             var products = _session.SearchForProducts("sugar drink")
                 .ToList();
-            Assert.That(products.Count, Is.AtLeast(1));
-            Assert.AreEqual("Soda", products.First().Name);
+            Assert.True(products.Count>=1);
+            Assert.Equal("Soda", products.First().Name);
         }
 
-        [Test]
-        public void CanCheckIfConstraintIsValid()
-        {
-            var customer = new Customer
-            {
-                Number = 61,
-                Firstname = "Peter John",
-                Lastname = "Sylvester",
-                Email = "peter@sylvester.com"
-            };
-            var checkResult = _session.CheckForUniqueConstraints(customer);
-            Assert.IsFalse(checkResult.ConstraintsAreFree());
-        }
 
-        [Test]
-        public void CantInsertDuplicateNumber()
-        {
-            var existing = _session.Query<Customer>().First();
-            var customer = new Customer
-            {
-                Number = existing.Number,
-                Firstname = existing.Firstname+ "x",
-                Lastname = existing.Lastname+ "x",
-                Email = "peter@random.com"
-            };
-            var checkResult = _session.CheckForUniqueConstraints(customer);
-            Assert.IsFalse(checkResult.ConstraintsAreFree());
-            _session.Store(customer);
-            var res = Assert.Throws<ErrorResponseException>(() =>
-            {
-                _session.SaveChanges();
-            });
-            Assert.That(res.Message, Is.StringContaining("Ensure unique constraint violated for fields").And.StringContaining("Number"));
-        }
 
-        [Test]
-        public void CantInsertDuplicateEmail()
-        {
-            var existing = _session.Query<Customer>().First();
-            var customer = new Customer
-            {
-                Number = existing.Number+1000,
-                Firstname = existing.Firstname + "x",
-                Lastname = existing.Lastname + "x",
-                Email = existing.Email
-            };
-            var checkResult = _session.CheckForUniqueConstraints(customer);
-            Assert.IsFalse(checkResult.ConstraintsAreFree());
-            _session.Store(customer);
-            var res = Assert.Throws<ErrorResponseException>(() =>
-            {
-                _session.SaveChanges();
-            });
-            Assert.That(res.Message, Is.StringContaining("Ensure unique constraint violated for fields").And.StringContaining("Email"));
-        }
-
-        [Test]
-        public void CantInsertDuplicateFirstNameAndLastName()
-        {
-            var existing = _session.Query<Customer>().First();
-            var customer = new Customer
-            {
-                Number = existing.Number + 10000,
-                Firstname = existing.Firstname,
-                Lastname = existing.Lastname,
-                Email = "peter@random.com"
-            };
-            var checkResult = _session.CheckForUniqueConstraints(customer);
-            Assert.IsFalse(checkResult.ConstraintsAreFree());
-            _session.Store(customer);
-            var res = Assert.Throws<ErrorResponseException>(() =>
-            {
-                _session.SaveChanges();
-            });
-            Assert.That(res.Message, Is.StringContaining("Ensure unique constraint violated for fields").And.StringContaining("FirstNameAndLastName"));
-        }
-
-        [Test]
+        [Fact]
         public void CantInsertARecordWithSameId()
         {
             var customer = new Customer
@@ -233,35 +155,32 @@ namespace SomeBasicRavenApp.Tests
             Assert.AreEqual(customer.Email, load.Email);
         }
 
-        [Test]
+        [Fact]
         public void CanGetProductById()
         {
             var product = _session.Load<Product>(1);
 
-            Assert.IsNotNull(product);
+            Assert.NotNull(product);
         }
-        [Test]
+        [Fact]
         public void OrderContainsProduct()
         {
             var orderProducts = _session.GetOrderProducts(order => order.Number == 1);
             Assert.True(orderProducts.First().Item2.Any(p => p.Number == 1));
         }
 
-        [SetUp]
-        public void Setup()
+        public CustomerDataTests()
         {
             _session = _store.OpenSession();
         }
 
 
-        [TearDown]
-        public void TearDown()
+        public void Dispose()
         {
             _session.Dispose();
         }
 
-        [TestFixtureSetUp]
-        public void TestFixtureSetup()
+        static CustomerDataTests()
         {
             _store = this.NewDocumentStore(runInMemory: true);
             _store.Initialize();
@@ -308,10 +227,5 @@ namespace SomeBasicRavenApp.Tests
             WaitForIndexing(_store);
         }
 
-        [TestFixtureTearDown]
-        public void TestFixtureTearDown()
-        {
-            _store.Dispose();
-        }
     }
 }

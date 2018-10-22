@@ -5,7 +5,12 @@
     <RootNamespace>SomeBasicRavenApp.CoreFs</RootNamespace>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="ValueTypeMapping.fs" />
+    <PackageReference Include="RavenDB.Client" Version="4.1.2" />
   </ItemGroup>
-  <Import Project="..\.paket\Paket.Restore.targets" />
+
+  <ItemGroup>
+    <Compile Include="Entities.fs" />
+    <Compile Include="Extensions.fs" />
+  </ItemGroup>
+  <Import Project="..\..\.paket\Paket.Restore.targets" />
 </Project>

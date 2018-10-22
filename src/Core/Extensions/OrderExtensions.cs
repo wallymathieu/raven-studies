@@ -11,7 +11,7 @@ namespace SomeBasicRavenApp.Core.Extensions
 {
     public static class OrderExtensions
     {
-        public static IEnumerable<Tuple<Customer, Order[]>> GetCustomerOrders(this IDocumentSession session, Expression<Func<Order, bool>> predicate)
+        public static IEnumerable<(Customer, Order[])> GetCustomerOrders(this IDocumentSession session, Expression<Func<Order, bool>> predicate)
         {
             return session.Query<Order>()
                 .Where(predicate)
@@ -23,12 +23,10 @@ namespace SomeBasicRavenApp.Core.Extensions
                 })
                 .ToList()
                 .GroupBy(c => c.Customer?.Number ?? 0)
-                .Select(c => Tuple.Create(
-                    c.First().Customer,
-                    c.Select(o => o.Order).ToArray()));
+                .Select(c => (c.First().Customer, c.Select(o => o.Order).ToArray()));
         }
 
-        public static IEnumerable<Tuple<Order, Product[]>> GetOrderProducts(this IDocumentSession session, Expression<Func<Order, bool>> predicate)
+        public static IEnumerable<(Order, Product[])> GetOrderProducts(this IDocumentSession session, Expression<Func<Order, bool>> predicate)
         {
             /*
 let products = this.Recurse<Order,Product>(order,
@@ -40,12 +38,10 @@ let products = this.Recurse<Order,Product>(order,
                 .Select(o=>new Order_WithProducts
                 {
                     Order = o,
-                    Products = o.Products.Select(p=>session.Load<Product>(p))
+                    Products = o.Products.Select(session.Load<Product>)
                 })
                 .ToList()
-                .Select(c => Tuple.Create(
-                    c.Order,
-                    c.Products.ToArray()));
+                .Select(c => (c.Order, c.Products.ToArray()));
         }
     }
 }

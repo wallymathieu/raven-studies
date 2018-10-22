@@ -23,7 +23,7 @@ let solutionFile  = "raven-studies.sln"
 
 // Default target configuration
 let configuration = "Release"
-let testProjects = ["./Tests"]
+let testProjects = ["./tests/Tests"; "./tests/FsTests"]
 
 // --------------------------------------------------------------------------------------
 // END TODO: The rest of the file includes standard build steps

@@ -1,4 +1,4 @@
 build_script:
-  - build.cmd build
+  - build.cmd -t build
 test_script:
-  - cmd: build.cmd test_only
+  - cmd: build.cmd -t test_only

@@ -2,3 +2,6 @@ build_script:
   - build.cmd -t build
 test_script:
   - cmd: build.cmd -t test_only
+branches:
+  only:
+    - master

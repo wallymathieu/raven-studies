@@ -1,5 +1,7 @@
 
 image: Visual Studio 2017
+install:
+  - choco install dotnetcore
 build_script:
   - build.cmd -t build
 test_script:

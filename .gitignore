@@ -237,3 +237,7 @@ _Pvt_Extensions
 
 # Test result
 TestResults.xml
+
+.idea/
+
+paket-files/

@@ -73,6 +73,7 @@ Target.create "all" ignore
 "build" ?=> "test_only"
 
 "clean"
+  ==> "restore"
   ==> "build"
   ==> "test"
   ==> "all"

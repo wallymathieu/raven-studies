@@ -3,6 +3,7 @@ source https://www.nuget.org/api/v2
 
 # In order to be able to run FAKE
 clitool dotnet-fake
+nuget Microsoft.NETCore.App 2.1.4
 
 group FakeBuild
 source https://api.nuget.org/v3/index.json

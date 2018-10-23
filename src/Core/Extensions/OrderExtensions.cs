@@ -38,7 +38,7 @@ let products = this.Recurse<Order,Product>(order,
                 .Select(o=>new Order_WithProducts
                 {
                     Order = o,
-                    Products = o.Products.Select(session.Load<Product>)
+                    Products = o.Products.Select(p=>session.Load<Product>(p))
                 })
                 .ToList()
                 .Select(c => (c.Order, c.Products.ToArray()));

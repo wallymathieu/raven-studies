@@ -5,10 +5,6 @@
     <RootNamespace>SomeBasicRavenApp.CoreFs</RootNamespace>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="RavenDB.Client" Version="4.1.2" />
-  </ItemGroup>
-
-  <ItemGroup>
     <Compile Include="Entities.fs" />
     <Compile Include="Extensions.fs" />
   </ItemGroup>

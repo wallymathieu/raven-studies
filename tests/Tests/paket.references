@@ -1,4 +1,3 @@
-dotnet-fake
 FluentMigrator.Runner
 Microsoft.NET.Test.Sdk
 RavenDB.TestDriver

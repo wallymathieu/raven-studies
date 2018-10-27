@@ -1,0 +1,6 @@
+group Tests
+    Microsoft.NET.Test.Sdk
+    RavenDB.TestDriver
+    xunit
+    xunit.runner.visualstudio
+    

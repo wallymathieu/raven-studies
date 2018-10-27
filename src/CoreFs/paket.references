@@ -1,0 +1,3 @@
+group Core
+    RavenDB.Client
+    FSharp.Core

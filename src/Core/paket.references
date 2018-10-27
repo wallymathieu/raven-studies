@@ -1,1 +1,2 @@
-RavenDB.Client
+group Core
+    RavenDB.Client

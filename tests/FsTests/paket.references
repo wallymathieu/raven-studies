@@ -1,8 +1,7 @@
-FluentMigrator.Runner
-Microsoft.NET.Test.Sdk
-RavenDB.TestDriver
-xunit
-xunit.runner.visualstudio
-dotnet-xunit
-FSharp.Core
-FSharp.Data
+group Tests
+    Microsoft.NET.Test.Sdk
+    RavenDB.TestDriver
+    xunit
+    xunit.runner.visualstudio
+    FSharp.Core
+    FSharp.Data

@@ -1,7 +1,1 @@
 dotnet-fake
-FluentMigrator.Runner
-Microsoft.NET.Test.Sdk
-RavenDB.TestDriver
-xunit
-xunit.runner.visualstudio
-dotnet-xunit

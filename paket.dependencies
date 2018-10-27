@@ -3,30 +3,41 @@ source https://www.nuget.org/api/v2
 
 # In order to be able to run FAKE
 clitool dotnet-fake
-nuget Microsoft.NETCore.App 2.1.4
-nuget RavenDB.Client 4.1.2
-nuget RavenDB.TestDriver 4.1.2
-nuget xunit 2.4.0
-nuget xunit.runner.visualstudio 2.4.0
-clitool dotnet-xunit 2.3.1
-nuget FluentMigrator.Runner 3.1.3
-nuget FSharp.Core 4.3.4
-nuget FSharp.Data 3.0.0
-nuget Microsoft.NET.Test.Sdk 15.9.0
+
+group Core
+    source https://api.nuget.org/v3/index.json
+
+    storage: none
+
+    nuget Microsoft.NETCore.App 2.1.4
+    nuget RavenDB.Client 4.1.2
+    nuget FSharp.Core 4.3.4
+
+group Tests
+    source https://api.nuget.org/v3/index.json
+
+    storage: none
+
+    nuget RavenDB.TestDriver 4.1.2
+    nuget xunit 2.4.0
+    nuget xunit.runner.visualstudio 2.4.0
+    nuget FSharp.Core 4.3.4
+    nuget FSharp.Data 3.0.0
+    nuget Microsoft.NET.Test.Sdk 15.9.0
 
 group FakeBuild
-source https://api.nuget.org/v3/index.json
+    source https://api.nuget.org/v3/index.json
 
-storage: none
+    storage: none
 
-nuget Fake.Core.Target
-nuget Fake.IO.FileSystem
-nuget Fake.DotNet.Cli
-nuget Fake.Tools.Git
-nuget Fake.DotNet.MSBuild
-nuget Fake.Core.ReleaseNotes 
-nuget Fake.DotNet.AssemblyInfoFile
-nuget Fake.DotNet.Paket
-nuget Fake.DotNet.Testing.Expecto 
-nuget Fake.DotNet.FSFormatting 
-nuget Fake.Api.GitHub
+    nuget Fake.Core.Target
+    nuget Fake.IO.FileSystem
+    nuget Fake.DotNet.Cli
+    nuget Fake.Tools.Git
+    nuget Fake.DotNet.MSBuild
+    nuget Fake.Core.ReleaseNotes 
+    nuget Fake.DotNet.AssemblyInfoFile
+    nuget Fake.DotNet.Paket
+    nuget Fake.DotNet.Testing.Expecto 
+    nuget Fake.DotNet.FSFormatting 
+    nuget Fake.Api.GitHub

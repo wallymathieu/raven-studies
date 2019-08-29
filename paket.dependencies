@@ -10,7 +10,7 @@ group Core
     storage: none
 
     nuget Microsoft.NETCore.App 2.1.4
-    nuget RavenDB.Client 4.1.5
+    nuget RavenDB.Client 4.2.3
     nuget FSharp.Core 4.3.4
     nuget Saithe
 
@@ -19,12 +19,13 @@ group Tests
 
     storage: none
 
-    nuget RavenDB.TestDriver 4.1.5
+    nuget RavenDB.TestDriver 4.2.3
     nuget xunit 2.4.0
     nuget xunit.runner.visualstudio 2.4.0
     nuget FSharp.Core 4.3.4
     nuget FSharp.Data 3.0.0
-    nuget Microsoft.NET.Test.Sdk 15.9.0
+    nuget Microsoft.NET.Test.Sdk 16.2.0
+    nuget Newtonsoft.Json 12.0.2
 
 group FakeBuild
     source https://api.nuget.org/v3/index.json

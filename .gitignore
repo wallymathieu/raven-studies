@@ -241,3 +241,5 @@ TestResults.xml
 .idea/
 
 paket-files/
+
+.ionide

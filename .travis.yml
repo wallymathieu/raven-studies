@@ -1,6 +1,6 @@
 language: csharp
-dotnet: 2.1.403
-sudo: false 
+dist: xenial
+dotnet: 2.2
 
 script: 
   - mono .paket/paket.bootstrapper.exe
